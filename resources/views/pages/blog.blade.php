@@ -95,7 +95,9 @@
 
         .thumbnail{
             position:relative;
-
+        }
+        .thumbnail>p {
+            height: 70px;
         }
         .thumbnail .post-content {
             margin: 0;
@@ -146,6 +148,30 @@
         }
         nav a:active,nav a:focus,nav a:hover {
             color: #fed136;;
+        }
+        .thumbnail .Art{
+            background-color: #d90051;
+            color: #fff;
+        }
+        .thumbnail>.Art:focus,.thumbnail>.Art:hover,.thumbnail>.Art:active {
+            background-color: #fff;
+            color: #d90051;
+        }
+        .thumbnail .Games{
+            background-color: #00a21d;
+            color: #fff;
+        }
+        .thumbnail>.Games:focus,.thumbnail>.Games:hover,.thumbnail>.Games:active {
+            background-color: #fff;
+            color: #00a21d;
+        }
+        .thumbnail .Accessories{
+            background-color: #9a0ba2;
+            color: #fff;
+        }
+        .thumbnail>.Accessories:focus,.thumbnail>.Accessories:hover,.thumbnail>.Accessories:active {
+            background-color: #fff;
+            color: #9a0ba2;
         }
     </style>
 </head>
@@ -236,7 +262,7 @@
             <div class="col-md-4 col-sm-6">
 
                 <div class="thumbnail">
-                    <a href="#" class="caption post-content">{{$blog -> category}}</a>
+                    <a href="#" class="caption post-content {{$blog -> category}}">{{$blog -> category}}</a>
                     <a href="">
                         <img src="../img/access.jpg" width="360" height="360"/>
                         <h3>{{$blog -> blog_name}}</h3>
