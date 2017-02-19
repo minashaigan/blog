@@ -241,7 +241,7 @@
                         <img src="../img/access.jpg" width="360" height="360"/>
                         <h3>{{$blog -> blog_name}}</h3>
                     </a>
-                    <p>{{$blog -> content}}</p>
+                    <p>{{ str_limit($blog -> content,90) }}</p>
                     <div class="comment">
                         <hr>
                         <span class="comment_no">

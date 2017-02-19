@@ -18,16 +18,16 @@
                 <br>
                 <ul class="list-inline">
                     <li>
-                        <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
+                        <a href="https://www.facebook.com" title="facebook"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
+                        <a href="https://twitter.com/" title="twitter"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-instagram fa-fw fa-3x"></i></a>
+                        <a href="https://www.instagram.com/" title="instagram"><i class="fa fa-instagram fa-fw fa-3x"></i></a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-telegram fa-fw fa-3x"></i></a>
+                        <a href="telegram.me/" title="telegram"><i class="fa fa-telegram fa-fw fa-3x"></i></a>
                     </li>
                 </ul>
     </section>
