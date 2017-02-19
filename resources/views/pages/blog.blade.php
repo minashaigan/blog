@@ -32,10 +32,6 @@
     <![endif]-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        .navbar-custom.affix {
-            background-color: #337ab7;;
-        }
-
         .navbar-custom {
             background-color: #337ab7;;
         }
@@ -80,11 +76,6 @@
         }
 
         .dropdown .btn-primary:hover, .btn-primary:focus, .btn-primary:visited, .btn-primary:active {
-            background-color: rgba(254, 209, 54, 0.81);
-            border-color: rgba(254, 209, 54, 0.81);
-        }
-
-        .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
             background-color: rgba(254, 209, 54, 0.81);
             border-color: rgba(254, 209, 54, 0.81);
         }
@@ -169,7 +160,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand page-scroll" href="{{URL::route('home')}}" >3D Mad Max</a>
+            <a class="navbar-brand page-scroll" href="{{URL::route('home')}}" title="3D Mad Max">3D Mad Max</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -179,7 +170,7 @@
                     <a href="#page-top"></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="{{URL::route('store')}}">Store</a>
+                    <a class="page-scroll" href="{{URL::route('store')}}" >Store</a>
                 </li>
                 <li>
                     <a class="page-scroll" href="{{URL::route('store')}}">Gallery</a>
@@ -222,7 +213,7 @@
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         @foreach($categories as $category)
-                            <li><a href="#">{{$category->category}}</a></li>
+                            <li><a href="{{URL::route('blog')}}/{{$category->category}}">{{$category->category}}</a></li>
                         @endforeach
                     </ul>
                 </div>

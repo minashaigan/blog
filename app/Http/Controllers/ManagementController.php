@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Blog;
 
 class ManagementController extends Controller
@@ -13,11 +13,27 @@ class ManagementController extends Controller
         return view('pages/store');
     }
     
-    public function viewblog()
+//    public function viewblog()
+//    {
+//        $blogs = Blog::all();
+//        $categories = Blog::distinct()->get(['category']);
+//        return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories));
+////        return view('pages/blog');
+//    }
+    public function viewblog($category = null)
     {
-        $blogs = Blog::all();
-        $categories = Blog::distinct()->get(['category']);
+        // get all the blog stuff from database
+        // if a category was passed, use that
+        // if no category, get all posts
+        $categories = Blog::onWriteConnection()->distinct()->get(['category']);
+        if ($category)
+            $blogs = Blog::all()->where('category','=', $category);
+        else
+            $blogs = Blog::all();
+
+        // show the view with blog posts (app/views/blog.blade.php)
         return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories));
-//        return view('pages/blog');
     }
 }
+
+

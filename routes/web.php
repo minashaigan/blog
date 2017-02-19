@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,25 +12,28 @@
 |
 */
 
+
+
 Route::get('/', function () {
     return view('pages/one');
 })->name('home');
 Route::get('store', [ 'uses' => 'ManagementController@viewstore','as' => 'store']);
-Route::get('blog', [ 'uses' => 'ManagementController@viewblog','as' => 'blog']);
+Route::get('blog/{category?}', [ 'uses' => 'ManagementController@viewblog','as' => 'blog']);
 //Route::get('blog', [ 'uses' => 'ManagementController@blogsearch','as' => 'blogsearch']);
 //Route::resource('blogs', 'BlogController');
-
-//Route::get('blog/{category?}', function($category = null)
-//{
+//
+//Route::get('blog/{category?}', );
+//Route::get('blog/{category?}', function($category = null) {
 //    // get all the blog stuff from database
 //    // if a category was passed, use that
 //    // if no category, get all posts
+//    $categories = App\Blog::distinct()->get(['category']);
 //    if ($category)
-//        $posts = Post::where('category', '=', $category);
+//        $blogs = App\Blog::where('category', '=', $category);
 //    else
-//        $posts = Post::all();
+//        $blogs = App\Blog::all();
 //
 //    // show the view with blog posts (app/views/blog.blade.php)
-//    return View::make('blog')
-//        ->with('posts', $posts);
-//});
+//    return View::make('pages/blog')
+//        ->with( array('blogs' => $blogs,'categories'=>$categories));
+//})->name('blog');
