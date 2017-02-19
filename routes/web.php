@@ -19,6 +19,7 @@ Route::get('/', function () {
 })->name('home');
 Route::get('store', [ 'uses' => 'ManagementController@viewstore','as' => 'store']);
 Route::get('blog/{category?}', [ 'uses' => 'ManagementController@viewblog','as' => 'blog']);
+Route::get('search', [ 'uses' => 'ManagementController@search','as' => 'search']);
 //Route::get('blog', [ 'uses' => 'ManagementController@blogsearch','as' => 'blogsearch']);
 //Route::resource('blogs', 'BlogController');
 //

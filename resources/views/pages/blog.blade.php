@@ -219,8 +219,8 @@
                 </div>
             </div>
             <div class="col-md-10">
-                <form id="search">
-                    <input type="text" name="search" placeholder="Search...">
+                <form id="search"  method="get" action="{{URL::route('search')}}">
+                    <input type="text" name="category" placeholder="Search..."/>
                 </form>
             </div>
         </div>

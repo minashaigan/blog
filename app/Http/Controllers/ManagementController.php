@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Blog;
+use Illuminate\Http;
 
 class ManagementController extends Controller
 {
-
     public function viewstore()
     {
         return view('pages/store');
@@ -36,6 +35,16 @@ class ManagementController extends Controller
 //        return view()->make('pages/blog')
 //            ->with( array('blogs' => $blogs,'categories'=>$categories));
     }
+    public function search() {
+
+        $category = request('category');
+        //$category = Request::get('category');
+        //$category = Http\Request::getTrustedHeaderName('category');
+        $categories = Blog::onWriteConnection()->distinct()->get(['category']);
+        $blogs = Blog::all()->where('category','=', $category);
+        return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories));
+    }
+
 }
 
 
