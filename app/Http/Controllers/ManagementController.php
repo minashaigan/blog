@@ -37,7 +37,7 @@ class ManagementController extends Controller
     }
     public function search() {
 
-        $category = request('category');
+        $category = ucfirst(request('category'));
         //$category = Request::get('category');
         //$category = Http\Request::getTrustedHeaderName('category');
         $categories = Blog::onWriteConnection()->distinct()->get(['category']);
