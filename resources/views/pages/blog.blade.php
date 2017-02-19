@@ -8,21 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="img/Designcontest-Outline-3D.ico">
+    <link rel="icon" href="../img/Designcontest-Outline-3D.ico">
     <title>3D Mad Max</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Theme CSS -->
-    <link href="css/agency.min.css" rel="stylesheet">
+    <link href="../css/agency.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,7 +48,7 @@
             border-radius: 4px;
             font-size: 16px;
             background-color: white;
-            background-image: url('img/searchcopy.jpg');
+            background-image: url('../img/searchcopy.jpg');
             background-size: 25px 25px;
             background-position: 10px 10px;
             background-repeat: no-repeat;
@@ -58,7 +58,7 @@
         }
 
         #search > input[type=text]:focus {
-            background-image: url('img/search.jpg');
+            background-image: url('../img/search.jpg');
             background-size: 25px 25px;
             width: 70%;
         }
@@ -213,7 +213,7 @@
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         @foreach($categories as $category)
-                            <li><a href="{{URL::route('blog')}}/{{$category->category}}">{{$category->category}}</a></li>
+                            <li><a href="{{URL::route('blog', [$category->category])}}">{{$category->category}}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -238,7 +238,7 @@
                 <div class="thumbnail">
                     <a href="#" class="caption post-content">{{$blog -> category}}</a>
                     <a href="">
-                        <img src="/img/access.jpg" width="360" height="360"/>
+                        <img src="../img/access.jpg" width="360" height="360"/>
                         <h3>{{$blog -> blog_name}}</h3>
                     </a>
                     <p>{{$blog -> content}}</p>
@@ -295,19 +295,19 @@
     </div>
 </footer>
 <!-- jQuery -->
-<script src="js/jquery.min.js"></script>
+<script src="../js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 
 <!-- Plugin JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb" crossorigin="anonymous"></script>
 
 <!-- Contact Form JavaScript -->
-<script src="js/jqBootstrapValidation.js"></script>
-<script src="js/contact_me.js"></script>
+<script src="../js/jqBootstrapValidation.js"></script>
+<script src="../js/contact_me.js"></script>
 
 <!-- Theme JavaScript -->
-<script src="js/agency.min.js"></script>
+<script src="../js/agency.min.js"></script>
 </body>
 </html>

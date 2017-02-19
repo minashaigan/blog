@@ -33,6 +33,8 @@ class ManagementController extends Controller
 
         // show the view with blog posts (app/views/blog.blade.php)
         return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories));
+//        return view()->make('pages/blog')
+//            ->with( array('blogs' => $blogs,'categories'=>$categories));
     }
 }
 

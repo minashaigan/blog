@@ -188,7 +188,7 @@
                     <a class="page-scroll" href="{{URL::route('store')}}">Project</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="{{URL::route('blog')}}">Blog</a>
+                    <a class="page-scroll" href="{{URL::route('bl')}}">Blog</a>
                 </li>
             </ul>
 
