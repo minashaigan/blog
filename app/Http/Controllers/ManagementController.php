@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Blog;
+use App\LikeBlog;
 use Illuminate\Http;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 class ManagementController extends Controller
 {
@@ -21,12 +26,12 @@ class ManagementController extends Controller
 //    }
     public function viewblog($category = null)
     {
-        // get all the blog stuff from database
-        // if a category was passed, use that
-        // if no category, get all posts
         $categories = Blog::onWriteConnection()->distinct()->get(['category']);
         if ($category)
-            $blogs = Blog::all()->where('category','=', $category);
+            if($category == 'All')
+                $blogs = Blog::all();
+            else
+                $blogs = Blog::all()->where('category','=', $category);
         else
             $blogs = Blog::all();
 
@@ -43,6 +48,22 @@ class ManagementController extends Controller
         $categories = Blog::onWriteConnection()->distinct()->get(['category']);
         $blogs = Blog::all()->where('category','=', $category);
         return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories));
+    }
+    public function like($id=null){
+//        $msg = "This is a simple message.";
+        $likecount = Blog::select('like_count')->where('blog_id','=',$id);
+        $ip_address = \Request::ip();
+        $like = new LikeBlog();
+        $like->ip_address = $ip_address;
+        $like->blogid = $id;
+        if($like->save()){
+            Blog::query()->where('blog_id',$id)->increment('like_count');
+            $likecount = $likecount +1;
+        }
+        return response()->json(array('likecount'=> $likecount), 20);
+        //return view('pages/blog');
+        //$likes = Ip_user::all();
+        //$is_insert = Ip_user::query()->insert($id);
     }
 
 }

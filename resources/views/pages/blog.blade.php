@@ -31,6 +31,19 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+        function getMessage($likec){
+            $.ajax({
+                type:'POST',
+                url:'/getmsg'/$likec,
+                data:'_token = <?php echo csrf_token() ?>',
+                success:function(data){
+                    $("#count_like").html(data.likecount);
+                }
+            });
+        }
+    </script>
     <style>
         .navbar-custom {
             background-color: #337ab7;;
@@ -48,7 +61,7 @@
             border-radius: 4px;
             font-size: 16px;
             background-color: white;
-            background-image: url('../img/searchcopy.jpg');
+            background-image: url('./img/searchcopy.jpg');
             background-size: 25px 25px;
             background-position: 10px 10px;
             background-repeat: no-repeat;
@@ -58,7 +71,7 @@
         }
 
         #search > input[type=text]:focus {
-            background-image: url('../img/search.jpg');
+            background-image: url('./img/search.jpg');
             background-size: 25px 25px;
             width: 70%;
         }
@@ -177,7 +190,7 @@
 </head>
 
 <body id="page-top" class="index">
-
+</div>
 <!-- Navigation -->
 <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container">
@@ -206,6 +219,11 @@
                 </li>
                 <li>
                     <a class="page-scroll" href="{{URL::route('blog')}}">Blog</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden">
+                    <a href="#page-top"></a>
                 </li>
             </ul>
 
@@ -241,6 +259,8 @@
                         @foreach($categories as $category)
                             <li><a href="{{URL::route('blog', [$category->category])}}">{{$category->category}}</a></li>
                         @endforeach
+                            <li><hr style="margin:2px;"></li>
+                            <li><a href="{{URL::route('blog', ['All'])}}">All</a></li>
                     </ul>
                 </div>
             </div>
@@ -267,12 +287,15 @@
                         <img src="../img/access.jpg" width="360" height="360"/>
                         <h3>{{$blog -> blog_name}}</h3>
                     </a>
-                    <p>{{ str_limit($blog -> content,90) }}</p>
+                    <p>{{ str_limit($blog -> content ,90) }}</p>
                     <div class="comment">
                         <hr>
                         <span class="comment_no">
-                        <a href="#"><span class="glyphicon glyphicon-heart-empty"></span></a>
-                        12</span>
+
+                            <button type="button" onclick="getMessage({{$blog -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
+                            {{--{{URL::route('like',$blog->blog_id)}}--}}
+                            <span class="count_like">{{$blog -> like_count}}</span>
+                        </span>
                         <span class="date"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($blog -> created_at))->diffForHumans() ?></span>
                     </div>
                 </div>
@@ -335,5 +358,8 @@
 
 <!-- Theme JavaScript -->
 <script src="../js/agency.min.js"></script>
+
+
+
 </body>
 </html>

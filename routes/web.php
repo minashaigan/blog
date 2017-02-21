@@ -20,6 +20,9 @@ Route::get('/', function () {
 Route::get('store', [ 'uses' => 'ManagementController@viewstore','as' => 'store']);
 Route::get('blog/{category?}', [ 'uses' => 'ManagementController@viewblog','as' => 'blog']);
 Route::get('search', [ 'uses' => 'ManagementController@search','as' => 'search']);
+//Route::get('like/{id?}', [ 'uses' => 'ManagementController@like','as' => 'like']);
+Route::post('/getmsg/{id?}','ManagementController@like');
+
 //Route::get('blog', [ 'uses' => 'ManagementController@blogsearch','as' => 'blogsearch']);
 //Route::resource('blogs', 'BlogController');
 //

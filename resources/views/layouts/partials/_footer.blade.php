@@ -18,6 +18,9 @@
                 <br>
                 <ul class="list-inline">
                     <li>
+                        <a href="https://plus.google.com" title="google plus"><i class="fa fa-google-plus fa-fw fa-3x"></i></a>
+                    </li>
+                    <li>
                         <a href="https://www.facebook.com" title="facebook"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
                     </li>
                     <li>
