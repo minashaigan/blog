@@ -44,6 +44,28 @@
             });
         }
     </script>
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
+    {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
+    <style>
+        .carousel-inner > .item > img,
+        .carousel-inner > .item > a > img {
+            width: 100%;
+            margin: auto;
+        }
+        .carousel {
+            display: -webkit-box;
+            text-align: center;
+        }
+        .carousel-control.left ,.carousel-control.right {
+            background-image:none;
+        }
+        .carousel-inner>.item {
+            height:500px;
+            width: 100%;
+            margin: auto;
+        }
+    </style>
     <style>
         .navbar-custom {
             background-color: #337ab7;;
@@ -187,6 +209,30 @@
             color: #9a0ba2;
         }
     </style>
+    <style>
+        .background {
+            background: url(./img/portfolio-1.jpg) no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            width: 100%;
+            height: 500px;
+            padding: 30px;
+        }
+        .transbox {
+            background-color: #ffffff;
+            border: 1px solid black;
+            opacity: 0.6;
+            filter: alpha(opacity=60); /* For IE8 and earlier */
+        }
+
+        div.transbox p {
+            margin: 5%;
+            font-weight: bold;
+            color: #000000;
+        }
+    </style>
 </head>
 
 <body id="page-top" class="index">
@@ -257,7 +303,7 @@
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         @foreach($categories as $category)
-                            <li><a href="{{URL::route('blog', [$category->category])}}">{{$category->category}}</a></li>
+                            <li><a href="{{URL::route('blog', [$category->category_name])}}">{{$category->category_name}}</a></li>
                         @endforeach
                             <li><hr style="margin:2px;"></li>
                             <li><a href="{{URL::route('blog', ['All'])}}">All</a></li>
@@ -277,15 +323,66 @@
 </section>
 <section class="blog">
     <div class="container">
+        <div class="row text-left">
+            <div class="col-md-12 col-sm-6">
+                <h3>Top Story</h3>
+                <br>
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <div class="background">
+                                <div class="transbox">
+                                    <p>This is some text that is placed in the transparent box.</p>
+                                </div>
+                            </div>
+
+                            {{--<img src="" alt="Chania" width="460" height="345px">--}}
+                        </div>
+
+                        <div class="item">
+                            <img src="./img/portfolio-2.jpg" alt="Chania" width="460" height="345px">
+                        </div>
+
+                        <div class="item">
+                            <img src="./img/portfolio-3.jpg" alt="Flower" width="460" height="345px">
+                        </div>
+
+                        <div class="item">
+                            <img src="./img/portfolio-4.jpg" alt="Flower" width="460" height="345px">
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr>
         <div class="row text-center">
             @foreach($blogs as $blog)
             <div class="col-md-4 col-sm-6">
 
                 <div class="thumbnail">
-                    <a href="#" class="caption post-content {{$blog -> category}}">{{$blog -> category}}</a>
+                    <a href="#" class="caption post-content {{$blog->categories->category_name}}">{{$blog->categories->category_name}}</a>
                     <a href="">
                         <img src="../img/access.jpg" width="360" height="360"/>
-                        <h3>{{$blog -> blog_name}}</h3>
+                        <h3>{{$blog -> post_name}}</h3>
                     </a>
                     <p>{{ str_limit($blog -> content ,90) }}</p>
                     <div class="comment">
