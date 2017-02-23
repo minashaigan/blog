@@ -427,6 +427,7 @@
                                 <?php $count =0;?>
                             @else
                         <div class="item">
+                            <a href="{{URL::route('posts',[$imp->post_id])}}">
                             <div class="background">
                             <div class="transbox" style="text-align: left;padding-left:5px ">
                                 {{--<div class="item">--}}
@@ -436,6 +437,7 @@
                                 <p>{{ str_limit($imp -> content ,500) }}</p>
                             </div>
                                 </div>
+                                </a>
                             {{--<a href="{{URL::route('posts',[$imp->post_id])}}">--}}
                                 {{--<div class="row text-center">--}}
                                     {{--<div class="col-md-6 col-sm-3">--}}
@@ -472,8 +474,8 @@
                     <div>
                         <div class="inside_slider">
                             <div class="thumbnail recent">
-                                <a href="#" class="caption post-content {{$recent->categories->category_name}}">{{$recent->categories->category_name}}</a>
-                                <a href="">
+                                <a href="{{URL::route('blog',[$recent->categories->category_name])}}" class="caption post-content {{$recent->categories->category_name}}">{{$recent->categories->category_name}}</a>
+                                <a href="{{URL::route('posts',[$recent->post_id])}}">
                                     <img src="../img/access.jpg" width="360" height="360"/>
                                     <h3>{{$recent -> post_name}}</h3>
                                 </a>
@@ -502,8 +504,8 @@
             @foreach($blogs as $blog)
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                    <a href="#" class="caption post-content {{$blog->categories->category_name}}">{{$blog->categories->category_name}}</a>
-                    <a href="">
+                    <a href="{{URL::route('blog',[$blog->categories->category_name])}}" class="caption post-content {{$blog->categories->category_name}}">{{$blog->categories->category_name}}</a>
+                    <a href="{{URL::route('posts',[$blog->post_id])}}">
                         <img src="../img/access.jpg" width="360" height="360"/>
                         <h3>{{$blog -> post_name}}</h3>
                     </a>
