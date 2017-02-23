@@ -47,7 +47,38 @@
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
     {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
     {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
+    <link rel="stylesheet" type="text/css" href="./css/slick.css">
+    <link rel="stylesheet" type="text/css" href="./css/slick-theme.css">
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 100px auto;
+        }
+
+        .slick-slide {
+            margin: 0px 20px;
+        }
+
+        .slick-slide .inside_slider {
+            width: 100%;
+        }
+
+        .slick-prev:before,
+        .slick-next:before {
+            color: black;
+        }
+    </style>
     <style>
+        /*style slideshow*/
         .carousel-inner > .item > img,
         .carousel-inner > .item > a > img {
             width: 100%;
@@ -57,13 +88,16 @@
             display: -webkit-box;
             text-align: center;
         }
-        .carousel-control.left ,.carousel-control.right {
-            background-image:none;
-        }
         .carousel-inner>.item {
             height:500px;
             width: 100%;
             margin: auto;
+        }
+        .carousel-control .glyphicon-chevron-left {
+            top: 90%;
+        }
+        .carousel-control .glyphicon-chevron-right {
+            top: 90%;
         }
     </style>
     <style>
@@ -208,10 +242,17 @@
             background-color: #fff;
             color: #9a0ba2;
         }
+        .thumbnail.all {
+            height: 45px;
+        }
+        .thumbnail>a>h3 {
+            margin-left:10px;
+        }
     </style>
     <style>
+        /**/
         .background {
-            background: url(./img/portfolio-1.jpg) no-repeat;
+            background: url(./img/portfolio-1.jpg) no-repeat   ;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -221,17 +262,46 @@
             padding: 30px;
         }
         .transbox {
+            width: 40%;
+            float: left;
             background-color: #ffffff;
-            border: 1px solid black;
-            opacity: 0.6;
+            opacity: 0.9;
             filter: alpha(opacity=60); /* For IE8 and earlier */
+            height: 400px;
+            margin-left: 5%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
-
-        div.transbox p {
-            margin: 5%;
-            font-weight: bold;
+        div.transbox h3 {
+            text-align: left;
+            margin: 3%;
             color: #000000;
         }
+        div.transbox p {
+            margin: 1%;
+            color: #000000;
+            text-align: left;
+            display: table;
+        }
+        /*recent part*/
+        .recent a>img {
+            margin: 0;
+            width: 250px;
+            height: 250px;
+        }
+        .recent a>h3 {
+            position: absolute;
+            top:10px;
+            left: 260px;
+        }
+        .recent p {
+            position: absolute;
+            top:60px;
+            left: 260px;
+            display: inline-block;
+        }
+        /*#recent_line{*/
+            /*margin-top: 0;*/
+        /*}*/
     </style>
 </head>
 
@@ -323,72 +393,124 @@
 </section>
 <section class="blog">
     <div class="container">
+        <h3 style="font-family:Droid Serif">Top Post</h3>
         <div class="row text-left">
             <div class="col-md-12 col-sm-6">
-                <h3>Top Story</h3>
                 <br>
+                <?php $count = count($important) ?>
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                        @for($i =1;$i<$count;$i++)
+                            <li data-target="#myCarousel" data-slide-to="$i"></li>
+                        @endfor
                     </ol>
-
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
+                        <?php $count = 1 ?>
+                        @foreach($important as $imp)
+                            @if($count)
                         <div class="item active">
-                            <div class="background">
+                            <a href="{{URL::route('posts',[$imp->post_id])}}">
+                                <div class="background">
                                 <div class="transbox">
-                                    <p>This is some text that is placed in the transparent box.</p>
+                                    {{--<div class="item">--}}
+                                        {{--<img src="img/portfolio-1.jpg" alt="Chania">--}}
+                                    {{--</div>--}}
+                                <h3>{{$imp->post_name}}</h3>
+                                <p>{{ str_limit($imp -> content ,500) }}</p>
                                 </div>
+                                    </div>
+                            </a>
+                        </div>
+                                <?php $count =0;?>
+                            @else
+                        <div class="item">
+                            <div class="background">
+                            <div class="transbox" style="text-align: left;padding-left:5px ">
+                                {{--<div class="item">--}}
+                                    {{--<img src="img/portfolio-1.jpg" alt="Chania">--}}
+                                {{--</div>--}}
+                                <h3>{{$imp->post_name}}</h3>
+                                <p>{{ str_limit($imp -> content ,500) }}</p>
                             </div>
-
-                            {{--<img src="" alt="Chania" width="460" height="345px">--}}
+                                </div>
+                            {{--<a href="{{URL::route('posts',[$imp->post_id])}}">--}}
+                                {{--<div class="row text-center">--}}
+                                    {{--<div class="col-md-6 col-sm-3">--}}
+                                        {{--<img src="../img/portfolio-1.jpg">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-md-6 col-sm-3" class="top_des">--}}
+                                        {{--<h3>{{$imp -> post_name}}</h3>--}}
+                                        {{--<p>{{ str_limit($imp -> content ,120) }}</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</a>--}}
                         </div>
-
-                        <div class="item">
-                            <img src="./img/portfolio-2.jpg" alt="Chania" width="460" height="345px">
-                        </div>
-
-                        <div class="item">
-                            <img src="./img/portfolio-3.jpg" alt="Flower" width="460" height="345px">
-                        </div>
-
-                        <div class="item">
-                            <img src="./img/portfolio-4.jpg" alt="Flower" width="460" height="345px">
-                        </div>
+                                @endif
+                        @endforeach
                     </div>
-
-                    <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                        <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                 </div>
             </div>
         </div>
         <hr>
-        <div class="row text-center">
-            @foreach($blogs as $blog)
-            <div class="col-md-4 col-sm-6">
+        <div class="row text-left">
+            <h3 style="padding-left: 15px;font-family:Droid Serif">Recent Post</h3>
+            <section class="regular slider">
+            @foreach($recents as $recent)
+                <div class="col-md-6 col-sm-6">
+                    <div>
+                        <div class="inside_slider">
+                            <div class="thumbnail recent">
+                                <a href="#" class="caption post-content {{$recent->categories->category_name}}">{{$recent->categories->category_name}}</a>
+                                <a href="">
+                                    <img src="../img/access.jpg" width="360" height="360"/>
+                                    <h3>{{$recent -> post_name}}</h3>
+                                </a>
+                                <p>{{ str_limit($recent -> content ,90) }}</p>
+                                <div class="comment">
+                                    <hr id="recent_line">
+                                <span class="comment_no">
+                                    <button type="button" onclick="getMessage({{$recent -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
+                                    {{--{{URL::route('like',$blog->blog_id)}}--}}
+                                    <span class="count_like">{{$recent -> like_count}}</span>
+                                </span>
+                                    <span class="date"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($recent -> created_at))->diffForHumans() ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+            @endforeach
+
+            </section>
+        </div>
+        <hr>
+        <div class="row text-left">
+            <h3 style="padding-left: 15px;font-family:Droid Serif">All</h3>
+            @foreach($blogs as $blog)
+            <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
                     <a href="#" class="caption post-content {{$blog->categories->category_name}}">{{$blog->categories->category_name}}</a>
                     <a href="">
                         <img src="../img/access.jpg" width="360" height="360"/>
                         <h3>{{$blog -> post_name}}</h3>
                     </a>
-                    <p>{{ str_limit($blog -> content ,90) }}</p>
+                    <p class="all">{{ str_limit($blog -> content ,50) }}</p>
                     <div class="comment">
                         <hr>
                         <span class="comment_no">
-
                             <button type="button" onclick="getMessage({{$blog -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
                             {{--{{URL::route('like',$blog->blog_id)}}--}}
                             <span class="count_like">{{$blog -> like_count}}</span>
@@ -450,12 +572,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb" crossorigin="anonymous"></script>
 
 <!-- Contact Form JavaScript -->
-<script src="../js/jqBootstrapValidation.js"></script>
-<script src="../js/contact_me.js"></script>
+<script src="./js/jqBootstrapValidation.js"></script>
+<script src="./js/contact_me.js"></script>
 
 <!-- Theme JavaScript -->
-<script src="../js/agency.min.js"></script>
+<script src="./js/agency.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+<script src="./js/slick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).on('ready', function() {
+        $(".regular").slick({
+            dots: true,
+            infinite: true,
+            slidesToShow: 2,
+            slidesToScroll: 2
+        });
+    });
+</script>
 
 
 </body>

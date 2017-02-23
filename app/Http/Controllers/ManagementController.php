@@ -41,6 +41,8 @@ class ManagementController extends Controller
         $categories = Category::all();
         //$categories = Post::all()->categories;
             //Post::onWriteConnection()->distinct()->get(['category']);
+        $important = Post::all()->where('important', 1);
+        $recents  = Post::orderBy('created_at', 'desc')->take(4)->get();
         if ($category)
             if($category == 'All')
                 $blogs = Post::all();
@@ -52,7 +54,7 @@ class ManagementController extends Controller
             $blogs = Post::all();
 
         // show the view with blog posts (app/views/blog.blade.php)
-        return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories));
+        return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories,'important'=>$important,'recents'=>$recents));
 //        return view()->make('pages/blog')
 //            ->with( array('blogs' => $blogs,'categories'=>$categories));
     }
@@ -83,7 +85,10 @@ class ManagementController extends Controller
         //$likes = Ip_user::all();
         //$is_insert = Ip_user::query()->insert($id);
     }
-
+    public function viewpost($id){
+        $post = Post::all()->where('post_id',$id);
+        return view('pages/post', array('post'=>$post));
+    }
 }
 
 
