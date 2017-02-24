@@ -128,8 +128,12 @@ class ManagementController extends Controller
             $comment = new Comment();
             $comment->user()->name = $input['Name'];
             $comment->post_id = $id;
+            //*****************************************
+            // Is there any better ways to add comment??????
+            //****************************************
             $user = new User();
             $user->name = $input['Name'];
+
             $user->save();
             $comment->comment = $input['Comment'];
             if (isset($input['Email'])) {
