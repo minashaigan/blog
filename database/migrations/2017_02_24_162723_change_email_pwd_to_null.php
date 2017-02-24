@@ -13,10 +13,10 @@ class ChangeEmailPwdToNull extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unsigned()->nullable()->change();
-            $table->string('password')->unsigned()->nullable()->change();
-        });
+//         Schema::table('users', function (Blueprint $table) {
+//             $table->string('email')->unsigned()->nullable()->change();
+//             $table->string('password')->unsigned()->nullable()->change();
+//         });
     }
 
     /**
