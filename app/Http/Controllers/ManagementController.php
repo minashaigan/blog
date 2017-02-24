@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Post;
 use App\Like;
 use App\Category;
@@ -41,15 +42,19 @@ class ManagementController extends Controller
         $categories = Category::all();
         //$categories = Post::all()->categories;
             //Post::onWriteConnection()->distinct()->get(['category']);
-        $important = Post::all()->where('important', 1);
+        $important = Post::all()->where('important',1);
         $recents  = Post::orderBy('created_at', 'desc')->take(4)->get();
         if ($category)
-            if($category == 'All')
+            if ($category == 'All') {
+
                 $blogs = Post::all();
-            else
-                $blogs = Post::whereHas('categories',function($q) use ($category){
-                  $q->where('category_name', $category);
-              })->get();
+            } else {
+                $blogs = Post::whereHas('categories', function ($q) use ($category) {
+                    $q->where('category_name', $category);
+                })->get();
+                $important = 0;
+                $recents = 0;
+            }
         else
             $blogs = Post::all();
 
@@ -67,7 +72,7 @@ class ManagementController extends Controller
         $blogs = Post::whereHas('categories',function($q) use ($category){
             $q->where('category_name', $category);
         })->get();
-        return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories));
+        return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories,'important'=>0,'recents'=>0));
     }
     public function like($id=null){
 //        $msg = "This is a simple message.";
@@ -86,8 +91,26 @@ class ManagementController extends Controller
         //$is_insert = Ip_user::query()->insert($id);
     }
     public function viewpost($id){
-        $post = Post::all()->where('post_id',$id);
-        return view('pages/post', array('post'=>$post));
+//      Comment::all()
+        //        $comments = Comment::orderBy('created_at', 'desc')->where('post_id',$id);
+        $post = Post::findOrFail($id);
+        $all = Post::all();
+        //        $posts = Post::all()->where('post_id',$id);
+        //        $post = Post::find($id);
+        $comments = $post->comments;
+        //        $post = Comment::orderBy('created_at','desc')->where('post_id',$id)->post;
+        $tags = $post->tags;
+        return view('pages/post', array('post'=>$post,'comments'=>$comments,'tags'=>$tags,'all'=>$all));
+    }
+
+    public function comment()
+    {
+        $input = Input::all();
+        $this->validate($input, [
+            'name' => 'required|max:30',
+            'email' =>  'exists:connection.staff,email',
+            'comment' => 'required|min:10|max:255',
+        ]);
     }
 }
 

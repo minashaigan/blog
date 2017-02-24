@@ -8,21 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../img/Designcontest-Outline-3D.ico">
+    <link rel="icon" href="/img/Designcontest-Outline-3D.ico">
     <title>3D Mad Max</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Theme CSS -->
-    <link href="../css/agency.min.css" rel="stylesheet">
+    <link href="/css/agency.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,8 +47,8 @@
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
     {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
     {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
-    <link rel="stylesheet" type="text/css" href="./css/slick.css">
-    <link rel="stylesheet" type="text/css" href="./css/slick-theme.css">
+    <link rel="stylesheet" type="text/css" href="/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="/css/slick-theme.css">
     <style type="text/css">
         html, body {
             margin: 0;
@@ -117,7 +117,7 @@
             border-radius: 4px;
             font-size: 16px;
             background-color: white;
-            background-image: url('./img/searchcopy.jpg');
+            background-image: url('/img/searchcopy.jpg');
             background-size: 25px 25px;
             background-position: 10px 10px;
             background-repeat: no-repeat;
@@ -127,7 +127,7 @@
         }
 
         #search > input[type=text]:focus {
-            background-image: url('./img/search.jpg');
+            background-image: url('/img/search.jpg');
             background-size: 25px 25px;
             width: 70%;
         }
@@ -252,7 +252,7 @@
     <style>
         /**/
         .background {
-            background: url(./img/portfolio-1.jpg) no-repeat   ;
+            background: url(/img/portfolio-1.jpg) no-repeat   ;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -393,6 +393,7 @@
 </section>
 <section class="blog">
     <div class="container">
+        @if($important)
         <h3 style="font-family:Droid Serif">Top Post</h3>
         <div class="row text-left">
             <div class="col-md-12 col-sm-6">
@@ -466,6 +467,8 @@
             </div>
         </div>
         <hr>
+        @endif
+        @if($recents)
         <div class="row text-left">
             <h3 style="padding-left: 15px;font-family:Droid Serif">Recent Post</h3>
             <section class="regular slider">
@@ -476,7 +479,7 @@
                             <div class="thumbnail recent">
                                 <a href="{{URL::route('blog',[$recent->categories->category_name])}}" class="caption post-content {{$recent->categories->category_name}}">{{$recent->categories->category_name}}</a>
                                 <a href="{{URL::route('posts',[$recent->post_id])}}">
-                                    <img src="../img/access.jpg" width="360" height="360"/>
+                                    <img src="/img/access.jpg" width="360" height="360"/>
                                     <h3>{{$recent -> post_name}}</h3>
                                 </a>
                                 <p>{{ str_limit($recent -> content ,90) }}</p>
@@ -485,7 +488,7 @@
                                 <span class="comment_no">
                                     <button type="button" onclick="getMessage({{$recent -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
                                     {{--{{URL::route('like',$blog->blog_id)}}--}}
-                                    <span class="count_like">{{$recent -> like_count}}</span>
+                                    <span class="count_like"><?php echo count($recent->comments) ?></span>
                                 </span>
                                     <span class="date"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($recent -> created_at))->diffForHumans() ?></span>
                                 </div>
@@ -499,14 +502,17 @@
             </section>
         </div>
         <hr>
+        <h3 style="padding-left: 15px;font-family:Droid Serif">All</h3>
+        @endif
+
         <div class="row text-left">
-            <h3 style="padding-left: 15px;font-family:Droid Serif">All</h3>
+
             @foreach($blogs as $blog)
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
                     <a href="{{URL::route('blog',[$blog->categories->category_name])}}" class="caption post-content {{$blog->categories->category_name}}">{{$blog->categories->category_name}}</a>
                     <a href="{{URL::route('posts',[$blog->post_id])}}">
-                        <img src="../img/access.jpg" width="360" height="360"/>
+                        <img src="/img/access.jpg" width="360" height="360"/>
                         <h3>{{$blog -> post_name}}</h3>
                     </a>
                     <p class="all">{{ str_limit($blog -> content ,50) }}</p>
@@ -515,7 +521,7 @@
                         <span class="comment_no">
                             <button type="button" onclick="getMessage({{$blog -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
                             {{--{{URL::route('like',$blog->blog_id)}}--}}
-                            <span class="count_like">{{$blog -> like_count}}</span>
+                            <span class="count_like"><?php echo count($blog->comments) ?></span>
                         </span>
                         <span class="date"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($blog -> created_at))->diffForHumans() ?></span>
                     </div>
@@ -565,23 +571,23 @@
     </div>
 </footer>
 <!-- jQuery -->
-<script src="../js/jquery.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="../js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 <!-- Plugin JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb" crossorigin="anonymous"></script>
 
 <!-- Contact Form JavaScript -->
-<script src="./js/jqBootstrapValidation.js"></script>
-<script src="./js/contact_me.js"></script>
+<script src="/js/jqBootstrapValidation.js"></script>
+<script src="/js/contact_me.js"></script>
 
 <!-- Theme JavaScript -->
-<script src="./js/agency.min.js"></script>
+<script src="/js/agency.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
-<script src="./js/slick.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/slick.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $(document).on('ready', function() {
         $(".regular").slick({
