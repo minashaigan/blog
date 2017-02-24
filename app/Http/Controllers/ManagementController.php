@@ -6,11 +6,16 @@ use App\Comment;
 use App\Post;
 use App\Like;
 use App\Category;
+use App\User;
 use Illuminate\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Validator;
+
 
 class ManagementController extends Controller
 {
@@ -43,7 +48,7 @@ class ManagementController extends Controller
         //$categories = Post::all()->categories;
             //Post::onWriteConnection()->distinct()->get(['category']);
         $important = Post::all()->where('important',1);
-        $recents  = Post::orderBy('created_at', 'desc')->take(4)->get();
+        $recents  = Post::orderBy('created_at', 'desc')->take(10)->get();
         if ($category)
             if ($category == 'All') {
 
@@ -100,17 +105,49 @@ class ManagementController extends Controller
         $comments = $post->comments;
         //        $post = Comment::orderBy('created_at','desc')->where('post_id',$id)->post;
         $tags = $post->tags;
-        return view('pages/post', array('post'=>$post,'comments'=>$comments,'tags'=>$tags,'all'=>$all));
+        $likes = $post->likes;
+        return view('pages/post', array('post'=>$post,'comments'=>$comments,'tags'=>$tags,'all'=>$all,'likes'=>$likes));
     }
 
-    public function comment()
+    public function comment($id)
     {
         $input = Input::all();
-        $this->validate($input, [
-            'name' => 'required|max:30',
-            'email' =>  'exists:connection.staff,email',
-            'comment' => 'required|min:10|max:255',
-        ]);
+        $rules = array(
+            'Name'      => 'Required|Min:3|Max:80',                       // just a normal required validation
+            'Email'     => 'Min:0|Max:80',    // required and must be unique in the ducks table
+            'Comment'   => 'Required|Min:7'
+        );
+        $messages = [
+            'Name.required' => 'وارد کردن نام شما ضروری است ',
+            'Comment.required' => 'وارد کردن پیام  شما ضروری است ',
+            'Name.min' => 'نام کامل خود را وارد نمایید ( حداقل ۷ کاراکتر) ',
+            'Comment.min' => 'حداقل ۷ کاراکتر لازم است'
+        ];
+        $validator = Validator::make($input,$rules,$messages);
+        if (!$validator->fails()) {
+            $comment = new Comment();
+            $comment->user()->name = $input['Name'];
+            $comment->post_id = $id;
+            $user = new User();
+            $user->name = $input['Name'];
+            $user->save();
+            $comment->comment = $input['Comment'];
+            if (isset($input['Email'])) {
+                $user->email = $input['Email'];
+            }
+            $comment->user_id = $user->id;
+            try{
+                $comment->save();
+            }
+            catch ( \Illuminate\Database\QueryException $e){
+                return Redirect::back()->withErrors(['. مشکلی در ثبت پیام شما به وجود آمد مججدا تلاش بفرمایید']);
+            }
+            return Redirect::back();
+        }
+        else{
+            return Redirect::back()
+                ->withErrors($validator)->withInput();
+        }
     }
 }
 
