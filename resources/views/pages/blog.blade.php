@@ -31,19 +31,6 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script>
-        function getMessage($likec){
-            $.ajax({
-                type:'POST',
-                url:'/getmsg'/$likec,
-                data:'_token = <?php echo csrf_token() ?>',
-                success:function(data){
-                    $("#count_like").html(data.likecount);
-                }
-            });
-        }
-    </script>
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
     {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
     {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
@@ -65,7 +52,7 @@
         }
 
         .slick-slide {
-            margin: 0px 20px;
+            margin: 0 20px;
         }
 
         .slick-slide .inside_slider {
@@ -248,6 +235,9 @@
         .thumbnail>a>h3 {
             margin-left:10px;
         }
+        .like {
+            color: #fed136;
+        }
     </style>
     <style>
         /**/
@@ -302,11 +292,13 @@
         /*#recent_line{*/
             /*margin-top: 0;*/
         /*}*/
+
     </style>
+
 </head>
 
 <body id="page-top" class="index">
-</div>
+
 <!-- Navigation -->
 <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container">
@@ -381,14 +373,33 @@
                 </div>
             </div>
             <div class="col-md-10">
-                <form id="search"  method="get" action="{{URL::route('search')}}">
-                    <input type="text" name="category" placeholder="Search..."/>
+                <form id="search"  method="get" action="{{URL::route('search')}}" >
+                    <input type="text" name="search" placeholder="Search..."/>
                 </form>
-            </div>
+                {{--@foreach($tags_search as $tag)--}}
+                    <div class="tags">
+                        @if($tags_search)
+                            <style>
+                                .tags {
+                                    margin: 10px 5px;
+                                    padding: 4px 20px;
+                                    background-color: #d7ebf6;
+                                    color: #337ab7;
+                                    border-radius: 159px;
+                                    display: inline-block;
+                                }
+                            </style>
+                        {{$tags_search}}
+                            @endif
+                    </div>
+                {{--@endforeach--}}
+                </div>
         </div>
+    </div>
         <!-- /.row -->
         <hr>
-    </div>
+
+
     <!-- /.container -->
 </section>
 <section class="blog">
@@ -486,9 +497,9 @@
                                 <div class="comment">
                                     <hr id="recent_line">
                                 <span class="comment_no">
-                                    <button type="button" onclick="getMessage({{$recent -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
-                                    {{--{{URL::route('like',$blog->blog_id)}}--}}
-                                    <span class="count_like"><?php echo count($recent->comments) ?></span>
+                                    <a href="{{URL::route('posts/like',[$recent->post_id])}}" class="like heart"><i  class="glyphicon glyphicon-heart-empty"></i></a>
+                                    {{----}}
+                                    <span class="count_like"><?php echo count($recent->likes) ?></span>
                                 </span>
                                     <span class="date"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($recent -> created_at))->diffForHumans() ?></span>
                                 </div>
@@ -519,9 +530,9 @@
                     <div class="comment">
                         <hr>
                         <span class="comment_no">
-                            <button type="button" onclick="getMessage({{$blog -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
-                            {{--{{URL::route('like',$blog->blog_id)}}--}}
-                            <span class="count_like"><?php echo count($blog->comments) ?></span>
+                            <a href="{{URL::route('posts/like',[$blog->post_id])}}" class="like heart"><i  class="glyphicon glyphicon-heart-empty"></i></a>
+                            {{----}}
+                            <span class="count_like"><?php echo count($blog->likes) ?></span>
                         </span>
                         <span class="date"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($blog -> created_at))->diffForHumans() ?></span>
                     </div>
@@ -598,7 +609,15 @@
         });
     });
 </script>
-
+<script>
+    $('.heart').click(function(){
+        $(this).find('i').toggleClass('glyphicon-heart-empty').toggleClass('glyphicon-heart');
+    });
+    $('#menu-toggle').click( function(){
+        $(this).find('i').toggleClass('glyphicon-arrow-right').toggleClass('glyphicon-arrow-left');
+    });
+</script>
+<script src="/js/tag-it.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

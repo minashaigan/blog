@@ -25,8 +25,12 @@ Route::get('search', [ 'uses' => 'ManagementController@search','as' => 'search']
 Route::post('/getmsg/{id?}','ManagementController@like');
 Route::get('/tet','ManagementController@checktest');
 Route::get('posts/{id?}',[ 'uses' => 'ManagementController@viewpost','as' => 'posts']);
+
 Route::post('posts/comment/{id?}', [ 'uses' => 'ManagementController@comment','as' => 'posts/comment']);
 
+Route::post('posts/reply/{id?}', [ 'uses' => 'ManagementController@reply','as' => 'posts/reply']);
+
+Route::get('posts/like/{id?}', [ 'uses' => 'ManagementController@like','as' => 'posts/like']);
 //Route::get('blog', [ 'uses' => 'ManagementController@blogsearch','as' => 'blogsearch']);
 //Route::resource('blogs', 'BlogController');
 //

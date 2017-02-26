@@ -46,7 +46,7 @@
         }
     </script>
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
-    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
     <style>
         .navbar-custom {
@@ -210,6 +210,9 @@
         .heart {
             color:#000000;
         }
+        .comment_no>.like {
+            color: #fed136;
+        }
     </style>
 </head>
 
@@ -265,7 +268,7 @@
         <div class="row">
             <div class="col-lg-12 text-left">
                 <div class="direction">
-                    <a href="{{URL::route('blog')}}">blog</a><span style="color: #337ab7;"> / </span><a href="{{URL::route('blog', [$post->categories->category_name])}}">{{$post->categories->category_name}}</a><span style="color: #337ab7;"> / </span><a href="{{URL::route('posts',[$post->post_id])}}">{{$post->post_name}}</a>
+                    <a href="{{URL::route('blog')}}">blog</a><span style="color: #337ab7;"> / </span><a href="{{URL::route('blog', [$post->categories->category_name])}}">{{$post->categories->category_name}}</a><span style="color: #337ab7;"> /</span><a href="{{URL::route('posts',[$post->post_id])}}">{{$post->post_name}}</a>
                     {{--<i class="material-icons" style="font-size:24px;color:#fed136">chevron_right</i>--}}
                 </div>
             </div>
@@ -285,8 +288,9 @@
         <hr>
         <h3 style="padding-left: 15px;font-family:'Times New Roman'"><?php echo count($post->comments) ?> <span style="font-family:'Times New Roman';text-transform: capitalize;"> Comment</span></h3>
         <hr>
-        <h3 style="padding-left: 15px;font-family:'Times New Roman'"><a class=" heart" href="#"><span class="glyphicon glyphicon-heart"></span></a><span style="font-family:'Times New Roman';text-transform: capitalize;"> Recommended </span><span style="background-color: #337ab7;color: white;padding: 1px 6px"><?php echo count($likes) ?></span></h3>
+        <h3 style="padding-left: 15px;font-family:'Times New Roman'"><a href="{{URL::route('posts/like',[$post->post_id])}}" class="like"><span class="glyphicon glyphicon-heart"></span></a><span style="font-family:'Times New Roman';text-transform: capitalize;"> Recommended </span><span style="background-color: #337ab7;color: white;padding: 1px 6px"><?php echo count($likes) ?></span></h3>
         <br>
+            <?php $count=0; ?>
             @foreach($comments as $comment)
                 <div class="col-lg-12 text-left">
                     <div class="comment">
@@ -294,15 +298,71 @@
                         <br>
                         {{$comment->comment}}
                         <br><br>
-                        <a href="" >Reply</a>
+                        <a href="#reply{{$comment->id}}" id="{{$comment->id}}">Reply</a>
+                        <div class="row">
+                            <div class="col-lg-1 text-left"></div>
+                        @foreach($replies[$count] as $reply)
+                            <div class="col-lg-11 text-left">
+                            <hr>
+                            <b style="text-transform: capitalize;">{{$reply->user->name}}</b> . <a href="" ><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($reply -> created_at))->diffForHumans() ?></a>
+                            <br>
+                            {{$reply->comment}}
+                            <br><br>
+                            </div>
+                        @endforeach
+                        </div>
+                        <?php $count++; ?>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-12 text-left" id="reply{{$comment->id}}">
+                                <form action="{{URL::route('posts/reply',[$comment->id])}}" method="post" data-toggle="validator"   class="form-horizontal text-left" style="float: left">
+                                    {{--{{URL::route('posts',[$related->post_id])}}--}}
+                                    <h3 style="font-family:'Times New Roman';font-size: 15px;text-transform: capitalize">Leave a Reply</h3>
+                                    {{ csrf_field() }}
+                                    @if (count($errors) > 0)
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                    <li>{{ $errorr }}</li>
+                                            </ul>
+                                        </div>
+                                    @endif
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="name">Name * :</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="Name" id="name" placeholder="Enter name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="email">Email * :</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" class="form-control" name="Email" id="email" placeholder="Enter email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="comment">Comment :</label>
+                                        <div class="col-sm-8">
+                                            <textarea  class="form-control" id="comment" name="Comment" placeholder="Enter reply" cols="20" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <button type="submit" class="btn btn-default">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr style="clear: both">
+                            </div>
+                        </div>
                     </div>
-                    <hr>
+
                 </div>
 
             @endforeach
-            <h3 style="font-family:'Times New Roman';font-size: 15px;text-transform: capitalize">Leave a Comment</h3>
+
             <form action="{{URL::route('posts/comment',[$post->post_id])}}" method="post" data-toggle="validator"   class="form-horizontal text-left" style="float: left">
                 {{--{{URL::route('posts',[$related->post_id])}}--}}
+                <h3 style="font-family:'Times New Roman';font-size: 15px;text-transform: capitalize">Leave a Comment</h3>
                 {{ csrf_field() }}
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
@@ -320,7 +380,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="email">Email :</label>
+                    <label class="control-label col-sm-4" for="email">Email * :</label>
                     <div class="col-sm-8">
                         <input type="email" class="form-control" name="Email" id="email" placeholder="Enter email">
                     </div>
@@ -368,9 +428,8 @@
                         <div class="comment">
                             <hr>
                                     <span class="comment_no">
-                                        <button type="button" onclick="getMessage({{$related -> like_count}})" style="background-color: white;color: #fed136;border: none"><span class="glyphicon glyphicon-heart-empty"></span></button>
-
-                                        <span class="count_like"><?php echo count($related->comments) ?></span>
+                                       <a href="{{URL::route('posts/like',[$related->post_id])}}" class="like heart"><i  class="glyphicon glyphicon-heart-empty"></i></a>
+                                        <span class="count_like"><?php echo count($related->likes) ?></span>
                                     </span>
                             <span class="date"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($related -> created_at))->diffForHumans() ?></span>
                         </div>
@@ -424,7 +483,22 @@
 
 <!-- Theme JavaScript -->
 <script src="/js/agency.min.js"></script>
+<script>
+    $(document).ready(function(){
+    @foreach($comments as $comment)
+                $("#reply"+"{{$comment->id}}").hide();
 
+    @endforeach
+    });
+   $(document).ready(function(){
+        @foreach($comments as $comment)
+                $("#"+"{{$comment->id}}").click(function(){
+                    $("#reply"+"{{$comment->id}}").toggle();
+                });
+        @endforeach
+    });
+
+</script>
 
 
 </body>

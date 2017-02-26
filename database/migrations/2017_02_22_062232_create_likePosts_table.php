@@ -15,7 +15,6 @@ class CreateLikePostsTable extends Migration
     {
         Schema::create('likeposts', function (Blueprint $table) {
             $table->increments('id');
-
             $table->integer('user_id')->unsigned();
             $table->integer('post_id')->unsigned();
             $table->timestamps();
