@@ -31,6 +31,9 @@ Route::post('posts/comment/{id?}', [ 'uses' => 'ManagementController@comment','a
 Route::post('posts/reply/{id?}', [ 'uses' => 'ManagementController@reply','as' => 'posts/reply']);
 
 Route::get('posts/like/{id?}', [ 'uses' => 'ManagementController@like','as' => 'posts/like']);
+
+
+
 //Route::get('blog', [ 'uses' => 'ManagementController@blogsearch','as' => 'blogsearch']);
 //Route::resource('blogs', 'BlogController');
 //

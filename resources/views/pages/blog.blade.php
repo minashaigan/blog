@@ -367,7 +367,7 @@
                         @foreach($categories as $category)
                             <li><a href="{{URL::route('blog', [$category->category_name])}}">{{$category->category_name}}</a></li>
                         @endforeach
-                            <li><hr style="margin:2px;"></li>
+                            <li role="presentation" class="divider"></li>
                             <li><a href="{{URL::route('blog', ['All'])}}">All</a></li>
                     </ul>
                 </div>
@@ -543,8 +543,7 @@
         </div>
 
         <nav  style="display: block;text-align:center">
-            <a href="#" class="load">Load More</a><br>
-            <span class="pagination-current-page">Page <span class="pagination-active-page">1</span> of 66</span>
+            {{$blogs->links()}}
         </nav>
         <!-- /.row -->
         <hr>

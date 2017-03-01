@@ -47,7 +47,6 @@ class ManagementController extends Controller
     public function viewblog($category = null){
         //$categories = Post::all()->category->category_name;
         $categories = Category::all();
-
         //$categories = Post::all()->categories;
             //Post::onWriteConnection()->distinct()->get(['category']);
         $important = Post::all()->where('important',1);
@@ -55,7 +54,7 @@ class ManagementController extends Controller
         if ($category)
             if ($category == 'All') {
 
-                $blogs = Post::all();
+                $blogs = Post::paginate(3);
             } else {
                 $blogs = Post::whereHas('categories', function ($q) use ($category) {
                     $q->where('category_name', $category);
@@ -64,13 +63,14 @@ class ManagementController extends Controller
                 $recents = 0;
             }
         else
-            $blogs = Post::all();
+            $blogs = Post::paginate(3);
 
         // show the view with blog posts (app/views/blog.blade.php)
         return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories,'important'=>$important,'recents'=>$recents,'tags_search'=>0));
 //        return view()->make('pages/blog')
 //            ->with( array('blogs' => $blogs,'categories'=>$categories));
     }
+    
     public function search() {
         $tagname = strtolower(request('search'));
         //$tags_search //= array();
