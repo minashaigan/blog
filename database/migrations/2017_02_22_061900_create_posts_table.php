@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('post_name');
             $table->longText('content');
             $table->integer('category_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
 
             /*
@@ -38,6 +39,14 @@ class CreatePostsTable extends Migration
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+        });
+
+        Schema::table('posts', function($table) {
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

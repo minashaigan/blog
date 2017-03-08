@@ -26,10 +26,19 @@ class Post extends Model
     {
         return $this->belongsToMany('App\Tag','post_tag','post_id','tag_id','post_id','id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
+
     protected $fillable = [
         'post_name',
         'content',
         'category_id',
-        'created_at'
+        'created_at',
+        'user_id'
     ];
+
+
 }

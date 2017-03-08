@@ -276,6 +276,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2>{{$post->post_name}}</h2>
+                <h5>By <a href="/blog/user/{{$post->user->id}}">{{$post->user->name}}</a></h5>
                 <p>{{$post->content}}</p>
             </div>
         </div>
@@ -290,113 +291,113 @@
         <hr>
         <h3 style="padding-left: 15px;font-family:'Times New Roman'"><a href="{{URL::route('posts/like',[$post->post_id])}}" class="like"><span class="glyphicon glyphicon-heart"></span></a><span style="font-family:'Times New Roman';text-transform: capitalize;"> Recommended </span><span style="background-color: #337ab7;color: white;padding: 1px 6px"><?php echo count($likes) ?></span></h3>
         <br>
-            <?php $count=0; ?>
-            @foreach($comments as $comment)
-                <div class="col-lg-12 text-left">
-                    <div class="comment">
-                        <b style="text-transform: capitalize;">{{$comment->user->name}}</b> . <a href="" ><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($comment -> created_at))->diffForHumans() ?></a>
-                        <br>
-                        {{$comment->comment}}
-                        <br><br>
-                        <a href="#reply{{$comment->id}}" id="{{$comment->id}}">Reply</a>
-                        <div class="row">
-                            <div class="col-lg-1 text-left"></div>
+        <?php $count=0; ?>
+        @foreach($comments as $comment)
+            <div class="col-lg-12 text-left">
+                <div class="comment">
+                    <b style="text-transform: capitalize;">{{$comment->user->name}}</b> . <a href="" ><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($comment -> created_at))->diffForHumans() ?></a>
+                    <br>
+                    {{$comment->comment}}
+                    <br><br>
+                    <a href="#reply{{$comment->id}}" id="{{$comment->id}}">Reply</a>
+                    <div class="row">
+                        <div class="col-lg-1 text-left"></div>
                         @foreach($replies[$count] as $reply)
                             <div class="col-lg-11 text-left">
-                            <hr>
-                            <b style="text-transform: capitalize;">{{$reply->user->name}}</b> . <a href="" ><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($reply -> created_at))->diffForHumans() ?></a>
-                            <br>
-                            {{$reply->comment}}
-                            <br><br>
+                                <hr>
+                                <b style="text-transform: capitalize;">{{$reply->user->name}}</b> . <a href="" ><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($reply -> created_at))->diffForHumans() ?></a>
+                                <br>
+                                {{$reply->comment}}
+                                <br><br>
                             </div>
                         @endforeach
+                    </div>
+                    <?php $count++; ?>
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12 text-left" id="reply{{$comment->id}}">
+                            <form action="{{URL::route('posts/reply',[$comment->id])}}" method="post" data-toggle="validator"   class="form-horizontal text-left" style="float: left">
+                                {{--{{URL::route('posts',[$related->post_id])}}--}}
+                                <h3 style="font-family:'Times New Roman';font-size: 15px;text-transform: capitalize">Leave a Reply</h3>
+                                {{ csrf_field() }}
+                                @if (count($errors) > 0)
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            <li>{{ $errorr }}</li>
+                                        </ul>
+                                    </div>
+                                @endif
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="name">Name * :</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="Name" id="name" placeholder="Enter name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="email">Email * :</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" class="form-control" name="Email" id="email" placeholder="Enter email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="comment">Comment :</label>
+                                    <div class="col-sm-8">
+                                        <textarea  class="form-control" id="comment" name="Comment" placeholder="Enter reply" cols="20" rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr style="clear: both">
                         </div>
-                        <?php $count++; ?>
-
-                        <hr>
-                        <div class="row">
-                            <div class="col-lg-12 text-left" id="reply{{$comment->id}}">
-                                <form action="{{URL::route('posts/reply',[$comment->id])}}" method="post" data-toggle="validator"   class="form-horizontal text-left" style="float: left">
-                                    {{--{{URL::route('posts',[$related->post_id])}}--}}
-                                    <h3 style="font-family:'Times New Roman';font-size: 15px;text-transform: capitalize">Leave a Reply</h3>
-                                    {{ csrf_field() }}
-                                    @if (count($errors) > 0)
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                    <li>{{ $errorr }}</li>
-                                            </ul>
-                                        </div>
-                                    @endif
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-4" for="name">Name * :</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="Name" id="name" placeholder="Enter name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-4" for="email">Email * :</label>
-                                        <div class="col-sm-8">
-                                            <input type="email" class="form-control" name="Email" id="email" placeholder="Enter email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-4" for="comment">Comment :</label>
-                                        <div class="col-sm-8">
-                                            <textarea  class="form-control" id="comment" name="Comment" placeholder="Enter reply" cols="20" rows="5"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-4 col-sm-8">
-                                            <button type="submit" class="btn btn-default">Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <hr style="clear: both">
-                            </div>
-                        </div>
                     </div>
-
                 </div>
 
-            @endforeach
+            </div>
 
-            <form action="{{URL::route('posts/comment',[$post->post_id])}}" method="post" data-toggle="validator"   class="form-horizontal text-left" style="float: left">
-                {{--{{URL::route('posts',[$related->post_id])}}--}}
-                <h3 style="font-family:'Times New Roman';font-size: 15px;text-transform: capitalize">Leave a Comment</h3>
-                {{ csrf_field() }}
-                @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <div class="form-group">
-                    <label class="control-label col-sm-4" for="name">Name * :</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" name="Name" id="name" placeholder="Enter name">
-                    </div>
+        @endforeach
+
+        <form action="{{URL::route('posts/comment',[$post->post_id])}}" method="post" data-toggle="validator"   class="form-horizontal text-left" style="float: left">
+            {{--{{URL::route('posts',[$related->post_id])}}--}}
+            <h3 style="font-family:'Times New Roman';font-size: 15px;text-transform: capitalize">Leave a Comment</h3>
+            {{ csrf_field() }}
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-4" for="email">Email * :</label>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" name="Email" id="email" placeholder="Enter email">
-                    </div>
+            @endif
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="name">Name * :</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Name" id="name" placeholder="Enter name">
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-4" for="comment">Comment :</label>
-                    <div class="col-sm-8">
-                        <textarea  class="form-control" id="comment" name="Comment" placeholder="Enter comment" cols="20" rows="5"></textarea>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="email">Email * :</label>
+                <div class="col-sm-8">
+                    <input type="email" class="form-control" name="Email" id="email" placeholder="Enter email">
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-4 col-sm-8">
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="comment">Comment :</label>
+                <div class="col-sm-8">
+                    <textarea  class="form-control" id="comment" name="Comment" placeholder="Enter comment" cols="20" rows="5"></textarea>
                 </div>
-            </form>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <div class="container">
@@ -416,7 +417,7 @@
             $result = array_intersect($id,$relatid);
             ?>
             @if($result && $related->post_id!= $post->post_id)
-                    @if($count)<h3 style="padding-left: 10px;font-family:'Times New Roman';text-transform: capitalize">Related Post</h3><?php $count =0 ?>@endif
+                @if($count)<h3 style="padding-left: 10px;font-family:'Times New Roman';text-transform: capitalize">Related Post</h3><?php $count =0 ?>@endif
                 <div class="col-md-3 col-sm-6">
                     <div class="thumbnail">
                         <a href="{{URL::route('blog',[$related->categories->category_name])}}" class="caption post-content {{$related->categories->category_name}}">{{$related  ->categories->category_name}}</a>
@@ -427,7 +428,7 @@
                         <p class="all">{{ str_limit($related -> content ,50) }}</p>
                         <div class="comment">
                             <hr>
-                                    <span class="comment_no">
+                            <span class="comment_no">
                                        <a href="{{URL::route('posts/like',[$related->post_id])}}" class="like heart"><i  class="glyphicon glyphicon-heart-empty"></i></a>
                                         <span class="count_like"><?php echo count($related->likes) ?></span>
                                     </span>
@@ -485,16 +486,16 @@
 <script src="/js/agency.min.js"></script>
 <script>
     $(document).ready(function(){
-    @foreach($comments as $comment)
-                $("#reply"+"{{$comment->id}}").hide();
+        @foreach($comments as $comment)
+                    $("#reply"+"{{$comment->id}}").hide();
 
-    @endforeach
+        @endforeach
     });
-   $(document).ready(function(){
+    $(document).ready(function(){
         @foreach($comments as $comment)
                 $("#"+"{{$comment->id}}").click(function(){
-                    $("#reply"+"{{$comment->id}}").toggle();
-                });
+            $("#reply"+"{{$comment->id}}").toggle();
+        });
         @endforeach
     });
 

@@ -32,6 +32,9 @@ Route::post('posts/reply/{id?}', [ 'uses' => 'ManagementController@reply','as' =
 
 Route::get('posts/like/{id?}', [ 'uses' => 'ManagementController@like','as' => 'posts/like']);
 
+//show User Page
+Route::get('/blog/user/{id}','ManagementController@userpost');
+
 
 
 //Route::get('blog', [ 'uses' => 'ManagementController@blogsearch','as' => 'blogsearch']);
