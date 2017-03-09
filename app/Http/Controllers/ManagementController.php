@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Redirect;
 use Validator;
 
 
-
 class ManagementController extends Controller
 {
 
@@ -27,7 +26,7 @@ class ManagementController extends Controller
         return view('pages/store');
     }
 
-        public function checktest()
+    public function checktest()
     {
         $posts=Post::find(1);
 //        foreach ($posts as $post)
@@ -49,7 +48,7 @@ class ManagementController extends Controller
         //$categories = Post::all()->category->category_name;
         $categories = Category::all();
         //$categories = Post::all()->categories;
-            //Post::onWriteConnection()->distinct()->get(['category']);
+        //Post::onWriteConnection()->distinct()->get(['category']);
         $important = Post::all()->where('important',1);
         $recents  = Post::orderBy('created_at', 'desc')->take(10)->get();
         if ($category)
@@ -85,7 +84,7 @@ class ManagementController extends Controller
         $categories = Category::all();
         return view('pages/blog', array('blogs' => $blogs,'categories'=>$categories,'important'=>0,'recents'=>0,'tags_search'=>$tagname));
     }
-        public function like($id=null){
+    public function like($id=null){
         $userlike = Like::where([['ip_address',Request::ip()],['post_id',$id]])->first();
         if(is_null($userlike)){
             $like = new Like();
@@ -114,7 +113,6 @@ class ManagementController extends Controller
         //$is_insert = Ip_user::query()->insert($id);
     }
     public function viewpost($id){
-
 //      Comment::all()
         //        $comments = Comment::orderBy('created_at', 'desc')->where('post_id',$id);
         $post = Post::findOrFail($id);
@@ -132,10 +130,6 @@ class ManagementController extends Controller
         //        $post = Comment::orderBy('created_at','desc')->where('post_id',$id)->post;
         $tags = $post->tags;
         $likes = $post->likes;
-
-
-
-
         return view('pages/post', array('post'=>$post,'comments'=>$comments,'tags'=>$tags,'all'=>$all,'likes'=>$likes,'replies'=>$replies));
     }
 
@@ -241,32 +235,6 @@ class ManagementController extends Controller
             return Redirect::back()
                 ->withErrors($validator)->withInput();
         }
-    }
-
-    public function userpost($id)
-    {
-
-
-        $categories = Category::all();
-        $user=User::find($id);
-
-
-
-
-            $blogs = Post::where('user_id',$id)->paginate(3);
-
-
-        return view('pages/user', array('user'=>$user,'blogs' => $blogs,'categories'=>$categories,'tags_search'=>0));
-//
-
-
-
-
-        /*
-        $post=Post::where('user_id',$id)->paginate(5);
-
-        return view('pages.user')->with(['user'=>$user,'post'=>$post]);
-        */
     }
 }
 

@@ -276,7 +276,6 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2>{{$post->post_name}}</h2>
-                <h5>By <a href="/blog/user/{{$post->user->id}}">{{$post->user->name}}</a></h5>
                 <p>{{$post->content}}</p>
             </div>
         </div>
@@ -428,7 +427,7 @@
                         <p class="all">{{ str_limit($related -> content ,50) }}</p>
                         <div class="comment">
                             <hr>
-                            <span class="comment_no">
+                                    <span class="comment_no">
                                        <a href="{{URL::route('posts/like',[$related->post_id])}}" class="like heart"><i  class="glyphicon glyphicon-heart-empty"></i></a>
                                         <span class="count_like"><?php echo count($related->likes) ?></span>
                                     </span>
